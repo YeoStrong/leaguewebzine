@@ -1,0 +1,246 @@
+-- DROP EVERYTHING
+DROP TABLE NBOARD;
+DROP TABLE ADMIN;
+DROP TABLE GCOMMENT;
+DROP TABLE GBOARD;
+DROP TABLE VCOMMENT;
+DROP TABLE VBOARD;
+DROP TABLE FCOMMENT;
+DROP TABLE FBOARD;
+DROP TABLE MEMBER;
+DROP TABLE MLEVEL;
+DROP TABLE CHAMPION;
+
+DROP SEQUENCE NBOARD_NNUM_SEQ;
+DROP SEQUENCE GBOARD_GNUM_SEQ;
+DROP SEQUENCE GCOMMENT_GCNUM_SEQ;
+DROP SEQUENCE VBOARD_VNUM_SEQ;
+DROP SEQUENCE VCOMMENT_VCNUM_SEQ;
+DROP SEQUENCE FBOARD_FNUM_SEQ;
+DROP SEQUENCE FCOMMENT_FCNUM_SEQ;
+----------------------------------------------------------------------
+--------------------------  MEMBER LEVEL  ----------------------------
+----------------------------------------------------------------------
+-- CREATE
+CREATE TABLE MLEVEL(
+    LLEVELNUM NUMBER(2) PRIMARY KEY,
+    LNAME     VARCHAR2(100) NOT NULL
+);
+-- DUMMY DATA
+INSERT INTO MLEVEL
+    VALUES(1, 'UNRANKED');
+INSERT INTO MLEVEL
+    VALUES(2, 'IRON');
+INSERT INTO MLEVEL
+    VALUES(3, 'BRONZE');
+INSERT INTO MLEVEL
+    VALUES(4, 'SILVER');
+INSERT INTO MLEVEL
+    VALUES(5, 'GOLD');
+INSERT INTO MLEVEL
+    VALUES(6, 'PLATINUM');
+INSERT INTO MLEVEL
+    VALUES(7, 'DIAMOND');
+INSERT INTO MLEVEL
+    VALUES(8, 'MASTER');
+INSERT INTO MLEVEL
+    VALUES(9, 'GRANDMASTER');
+INSERT INTO MLEVEL
+    VALUES(10, 'CHALLENGER');
+----------------------------------------------------------------------
+-----------------------------  MEMBER  -------------------------------
+----------------------------------------------------------------------
+-- CREATE
+CREATE TABLE MEMBER(
+    MID       VARCHAR2(100) PRIMARY KEY,
+    MNICKNAME VARCHAR2(100) UNIQUE NOT NULL,
+    MPW       VARCHAR2(100) NOT NULL,
+    MNAME     VARCHAR2(100),
+    MTEL      VARCHAR2(100),
+    MBIRTH    DATE,
+    MEMAIL    VARCHAR2(100),
+    MGENDER   VARCHAR2(30),
+    MPHOTO    VARCHAR2(30),
+    MADDRESS   VARCHAR2(100),
+    MRDATE    DATE DEFAULT SYSDATE,
+    LLEVELNUM NUMBER(3) DEFAULT 1 REFERENCES MLEVEL(LLEVELNUM),
+    MWITHDRAWAL NUMBER(1) DEFAULT 1
+);
+-- DUMMY DATA
+INSERT INTO MEMBER (MID, MNICKNAME, MPW)
+    VALUES ('aaa', '닉넴1', '1');
+INSERT INTO MEMBER (MID, MNICKNAME, MPW)
+    VALUES ('bbb', '닉넴2', '1');
+INSERT INTO MEMBER (MID, MNICKNAME, MPW)
+    VALUES ('ccc', '닉넴3', '1'); 
+----------------------------------------------------------------------
+----------------------------  CHAMPION  ------------------------------
+----------------------------------------------------------------------
+-- CREATE
+CREATE TABLE CHAMPION(
+    CNAME VARCHAR2(100) PRIMARY KEY,
+    CROLE VARCHAR2(100) NOT NULL,
+    CLINE VARCHAR2(100) NOT NULL,
+    CPHOTO VARCHAR2(100) NOT NULL
+);
+-- DUMMY DATA
+INSERT INTO CHAMPION
+    VALUES ('가렌', '전사', '탑', 'GarenSquare.webp');
+INSERT INTO CHAMPION
+    VALUES ('아트록스', '전사', '탑', 'AatroxSquare.webp');
+----------------------------------------------------------------------
+-----------------------------  ADMIN  --------------------------------
+----------------------------------------------------------------------
+-- CREATE
+CREATE TABLE ADMIN(
+    AID VARCHAR2(100) PRIMARY KEY,
+    APW VARCHAR2(100) NOT NULL,
+    ANICKNAME VARCHAR2(100) NOT NULL
+);
+-- DUMMY DATA
+INSERT INTO ADMIN
+    VALUES ('admin', '1', '관리자');
+----------------------------------------------------------------------
+--------------------------  NOTICEBOARD  -----------------------------
+----------------------------------------------------------------------
+--CREATE
+CREATE TABLE NBOARD(
+    NNUM     NUMBER(5) PRIMARY KEY,
+    NTITLE   VARCHAR2(100) NOT NULL,
+    NCONTENT VARCHAR2(4000) NOT NULL,
+    NIMAGE   VARCHAR2(100),
+    NDATE    DATE DEFAULT SYSDATE,
+    NHIT     NUMBER(7) DEFAULT 0,
+    AID      VARCHAR2(100) REFERENCES ADMIN(AID)
+);
+CREATE SEQUENCE NBOARD_NNUM_SEQ MAXVALUE 99999 NOCACHE NOCYCLE;
+-- DUMMY DATA
+INSERT INTO NBOARD (NNUM, NTITLE, NCONTENT, AID)
+    VALUES(NBOARD_NNUM_SEQ.NEXTVAL, '최초공지사항', '이러저러합니다', 'admin');
+INSERT INTO NBOARD (NNUM, NTITLE, NCONTENT, AID)
+    VALUES(NBOARD_NNUM_SEQ.NEXTVAL, '2번째공지사항', '요로쿵합니다', 'admin');
+----------------------------------------------------------------------
+--------------------------  GUIDEBOARD  ------------------------------
+----------------------------------------------------------------------
+-- CREATE
+CREATE TABLE GBOARD(
+    GNUM NUMBER(5) PRIMARY KEY,
+    GTITLE VARCHAR2(100) NOT NULL,
+    GCONTENT VARCHAR2(4000) NOT NULL,
+    GFILE1 VARCHAR2(100),
+    GFILE2 VARCHAR2(100),
+    GFILE3 VARCHAR2(100),
+    GDATE DATE DEFAULT SYSDATE,
+    GHIT NUMBER(7) DEFAULT 0,
+    GRATING NUMBER(3, 2),
+    MID VARCHAR2(100) REFERENCES MEMBER(MID),
+    CNAME VARCHAR2(100) REFERENCES CHAMPION(CNAME),
+    GIP VARCHAR2(100)
+);
+CREATE SEQUENCE GBOARD_GNUM_SEQ MAXVALUE 99999 NOCACHE NOCYCLE;
+-- DUMMY DATA
+INSERT INTO GBOARD (GNUM, GTITLE, GCONTENT, MID, CNAME)
+    VALUES (GBOARD_GNUM_SEQ.NEXTVAL, '기본 공략', 'cs를 잘먹는다', 'aaa', '가렌');
+INSERT INTO GBOARD (GNUM, GTITLE, GCONTENT, MID, CNAME)
+    VALUES (GBOARD_GNUM_SEQ.NEXTVAL, '기본 공략', 'cs를 잘먹는다', 'bbb', '아트록스');
+----------------------------------------------------------------------
+------------------  GUIDEBOARD_COMMENT(GCOMMENT)  --------------------
+----------------------------------------------------------------------
+-- CREATE
+CREATE TABLE GCOMMENT(
+    GCNUM NUMBER(7) PRIMARY KEY,
+    MID VARCHAR2(100) REFERENCES MEMBER(MID) NOT NULL,
+    GNUM NUMBER(5) REFERENCES GBOARD(GNUM) NOT NULL,
+    GCCONTENT VARCHAR2(1000) NOT NULL,
+    GCDATE DATE DEFAULT SYSDATE
+);
+CREATE SEQUENCE GCOMMENT_GCNUM_SEQ MAXVALUE 9999999 NOCACHE NOCYCLE;
+-- DUMMY DATA
+INSERT INTO GCOMMENT (GCNUM, MID, GNUM, GCCONTENT)
+    VALUES(GCOMMENT_GCNUM_SEQ.NEXTVAL, 'ccc', 1, '좋은 공략이네요');
+INSERT INTO GCOMMENT (GCNUM, MID, GNUM, GCCONTENT)
+    VALUES(GCOMMENT_GCNUM_SEQ.NEXTVAL, 'ccc', 2, '좋은 공략이군요');
+----------------------------------------------------------------------
+---------------------------  VIDEOBOARD  -----------------------------
+----------------------------------------------------------------------
+-- CREATE
+CREATE TABLE VBOARD(
+    VNUM NUMBER(5) PRIMARY KEY,
+    CNAME VARCHAR2(100) REFERENCES CHAMPION(CNAME),
+    VTITLE VARCHAR2(100) NOT NULL,
+    VCONTENT VARCHAR2(4000) NOT NULL,
+    VVIDEO VARCHAR2(100) DEFAULT 'DUMMY.mp4' NOT NULL,
+    VDATE DATE DEFAULT SYSDATE,
+    VHIT NUMBER(7) DEFAULT 0,
+    MID VARCHAR2(100) REFERENCES MEMBER(MID),
+    VIP VARCHAR2(100)
+);
+CREATE SEQUENCE VBOARD_VNUM_SEQ MAXVALUE 99999 NOCACHE NOCYCLE;
+-- DUMMY DATA
+INSERT INTO VBOARD (VNUM, CNAME, VTITLE, VCONTENT, MID)
+    VALUES (VBOARD_VNUM_SEQ.NEXTVAL, '가렌', '가붕이돈다', '데구루루', 'aaa');
+INSERT INTO VBOARD (VNUM, CNAME, VTITLE, VCONTENT, MID)
+    VALUES (VBOARD_VNUM_SEQ.NEXTVAL, '아트록스', '아붕이피흡한다', '후루룹', 'bbb');
+----------------------------------------------------------------------
+-------------------  VIDEOBOARD_COMMENT(VCOMMENT  --------------------
+----------------------------------------------------------------------
+-- CREATE
+CREATE TABLE VCOMMENT (
+    VCNUM NUMBER(7) PRIMARY KEY,
+    MID VARCHAR2(100) REFERENCES MEMBER(MID) NOT NULL,
+    VNUM NUMBER(5) REFERENCES VBOARD(VNUM) NOT NULL,
+    VCCONTENT VARCHAR2(1000) NOT NULL,
+    VCDATE DATE DEFAULT SYSDATE
+);
+CREATE SEQUENCE VCOMMENT_VCNUM_SEQ MAXVALUE 9999999 NOCACHE NOCYCLE;
+-- DUMMY DATA
+INSERT INTO VCOMMENT (VCNUM, MID, VNUM, VCCONTENT)
+    VALUES (VCOMMENT_VCNUM_SEQ.NEXTVAL, 'ccc', 1, '잘봤습니다');
+INSERT INTO VCOMMENT (VCNUM, MID, VNUM, VCCONTENT)
+    VALUES (VCOMMENT_VCNUM_SEQ.NEXTVAL, 'ccc', 2, '훌륭하네요');
+----------------------------------------------------------------------
+----------------------------  FREEBOARD  -----------------------------
+----------------------------------------------------------------------
+-- CREATE
+CREATE TABLE FBOARD(
+    FNUM NUMBER(5) PRIMARY KEY,
+    FTITLE VARCHAR2(100) NOT NULL,
+    FCONTENT VARCHAR2(4000) NOT NULL,
+    FIMAGE VARCHAR2(100),
+    FDATE DATE DEFAULT SYSDATE,
+    FHIT NUMBER(7) DEFAULT 0,
+    FGROUP NUMBER(5) NOT NULL,
+    FSTEP NUMBER(2) NOT NULL,
+    FINDENT NUMBER(2) NOT NULL,
+    MID VARCHAR2(100) REFERENCES MEMBER(MID) NOT NULL,
+    FIP VARCHAR2(100)
+);
+CREATE SEQUENCE FBOARD_FNUM_SEQ MAXVALUE 99999 NOCACHE NOCYCLE;
+-- DUMMY DATA(원글)
+INSERT INTO FBOARD (FNUM, FTITLE, FCONTENT, FGROUP, FSTEP, FINDENT, MID)
+    VALUES (FBOARD_FNUM_SEQ.NEXTVAL, '자유다', '자유게시판만세', FBOARD_FNUM_SEQ.CURRVAL, 0, 0, 'aaa');
+INSERT INTO FBOARD (FNUM, FTITLE, FCONTENT, FGROUP, FSTEP, FINDENT, MID)
+    VALUES (FBOARD_FNUM_SEQ.NEXTVAL, '숭고한자유', '자유게시판좋아요', FBOARD_FNUM_SEQ.CURRVAL, 0, 0, 'bbb');
+INSERT INTO FBOARD (FNUM, FTITLE, FCONTENT, FGROUP, FSTEP, FINDENT, MID)
+    VALUES (FBOARD_FNUM_SEQ.NEXTVAL, '자유조아', '자유게시판짱좋아~~~', FBOARD_FNUM_SEQ.CURRVAL, 0, 0, 'bbb');
+    -- 2번 글에 대한 답글
+    INSERT INTO FBOARD (FNUM, FTITLE, FCONTENT, FGROUP, FSTEP, FINDENT, MID)
+        VALUES (FBOARD_FNUM_SEQ.NEXTVAL, '자유라는건 말이죠', '제가 LA에 있었을 때였죠...', 2, 1, 1, 'ccc');
+----------------------------------------------------------------------
+-------------------  FREEBOARD_COMMENT(FCOMMENT)  --------------------
+----------------------------------------------------------------------
+-- CREATE
+CREATE TABLE FCOMMENT(
+    FCNUM NUMBER(7) PRIMARY KEY,
+    MID VARCHAR2(100) REFERENCES MEMBER(MID) NOT NULL,
+    FNUM NUMBER(5) REFERENCES FBOARD(FNUM) NOT NULL,
+    FCCONTENT VARCHAR2(1000) NOT NULL,
+    FCDATE DATE DEFAULT SYSDATE
+);
+CREATE SEQUENCE FCOMMENT_FCNUM_SEQ MAXVALUE 9999999 NOCACHE NOCYCLE;
+-- DUMMY DATA
+INSERT INTO FCOMMENT (FCNUM, MID, FNUM, FCCONTENT)
+    VALUES (FCOMMENT_FCNUM_SEQ.NEXTVAL, 'ccc', 1, '무대를 뒤집어놓으셨다' );
+INSERT INTO FCOMMENT (FCNUM, MID, FNUM, FCCONTENT)
+    VALUES (FCOMMENT_FCNUM_SEQ.NEXTVAL, 'ccc', 2, '안쓰는 창법' );
+COMMIT;
