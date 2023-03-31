@@ -24,7 +24,7 @@ public class MWithdrawalService implements Service {
 		if(result == MemberDao.SUCCESS) {
 			request.setAttribute("withdrawalResult", "회원 탈퇴가 완료되었습니다.");
 		}else {
-			request.setAttribute("withdrawalResult", "로그인이 되어 있지 않습니다");
+			request.setAttribute("withdrawalResult", "회원 탈퇴가 제대로 되지 않았습니다.");
 		}
 	}
 }

@@ -37,7 +37,7 @@
 			dto.setFimage(null);
 			dao.writeFboard(dto);			
 		}else if(i%5==0){
-			dto.setMid("bbb");
+			dto.setMid("abc");
 			dto.setFimage("a.docx");
 			dao.writeFboard(dto);		
 		}	

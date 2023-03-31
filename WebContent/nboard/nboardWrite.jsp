@@ -24,30 +24,28 @@
 	</script>
 </head>
 <body>
-	<c:if test="${empty member }"> <!-- 로그인 후에만 글쓰기 가능 -->
-		<script>
-			location.href='${conPath}/loginView.do?next=boardWriteView.do';
-		</script>
-	</c:if>
 	<jsp:include page="../main/header.jsp"/>
 	<div id="content_form">
-		<form action="${conPath }/boardWrite.do" method="post" enctype="multipart/form-data">
-			<table>
-				<caption>글쓰기</caption>
+		<form action="${conPath }/nboardWrite.do" method="post" enctype="multipart/form-data">
+			<table class="table caption-top w-50 align-middle">
+				<caption>공지사항 작성</caption>
 				<tr>
-					<td>제목</td><td><input type="text" name="ftitle" 	required="required"></td>
+					<th>제목</th><td><input type="text" name="ntitle" class="form-control" 	required="required"></td>
 				</tr>
 				<tr>
-					<td>본문</td><td><textarea name="fcontent" rows="5"></textarea></td>
+					<th>본문</th><td><textarea name="ncontent" rows="5" class="form-control"></textarea></td>
 				</tr>
 				<tr>
-					<td>첨부파일</td><td><input type="file" name="ffilName"></td>
+					<th>첨부파일</th><td><input type="file" name="nimage" class="form-control"></td>
 				</tr>
-				<tr><td colspan="2">
-							<input type="submit" value="글쓰기" class="btn">
-							<input type="reset" value="취소" class="btn">
-							<input type="button" value="목록" class="btn"
-								onclick="location.href='${conPath}/boardList.do'">
+				<tr>
+					<td colspan="2">
+						<button type="submit" class="btn btn-secondary btn-sm" >글쓰기</button>
+						<button type="reset" class="btn btn-secondary btn-sm" >취소</button>
+						<button type="button" class="btn btn-secondary btn-sm"
+						 onclick="location.href='${conPath}/nboardList.do'" >목록</button>
+					</td>
+				</tr>
 			</table>
 		</form>
 	</div>

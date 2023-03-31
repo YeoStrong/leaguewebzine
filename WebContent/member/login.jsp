@@ -32,20 +32,20 @@
 	<div id="content_form">
 		<form action="${conPath }/login.do" method="post">
 			<input type="hidden" name="next" value="${param.next }">
-			<table>
-				<caption>사용자님 로그인</caption>
+			<table class="table caption-top w-25 align-middle">
+				<caption>로그인</caption>
 				<tr>
-					<th>ID</th><td><input type="text" name="mid" value="${mid }" required="required"></td>
+					<th>아이디</th><td><input type="text" name="mid" class="form-control" value="${mid }" required="required"></td>
 				</tr>
 				<tr>
-					<th>PW</th><td><input type="password" name="mpw" required="required"></td>
+					<th>비밀번호</th><td><input type="password" name="mpw" class="form-control" required="required"></td>
 				</tr>
 				<tr>
 					<td colspan="2">
-						<p>
-							<input type="submit" value="로그인" class="btn">
-							<input type="button" value="회원가입" class="btn"
-									onclick="location='${conPath}/joinView.do'">
+						<p style="text-align: center;">
+							<button type="submit" class="btn btn-secondary btn-sm" >로그인</button>
+							<button type="button" class="btn btn-secondary btn-sm"
+						 	onclick="location.href='${conPath}/joinView.do'" >회원가입</button>
 						</p>
 					</td>
 				</tr>

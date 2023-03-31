@@ -25,12 +25,12 @@ public class FboardReplyService implements Service {
 		// 파일첨부 로직 + 파라미터들 받아 DB에 join
 		String path = request.getRealPath("fboardUp");
 		int maxSize = 1024*1024*10; // 최대업로드 사이즈는 10M
-		String ffileName = "";
+		String fimage = "";
 		try {
 			MultipartRequest mRequest = new MultipartRequest(request, path, maxSize, "utf-8", new DefaultFileRenamePolicy());
 			Enumeration<String> params = mRequest.getFileNames();
 			String param = params.nextElement();
-			ffileName = mRequest.getFilesystemName(param);
+			fimage = mRequest.getFilesystemName(param);
 			// mId, fTitle, fContent,  fileName, fIp
 			HttpSession httpSession = request.getSession();
 			MemberDto member = (MemberDto)httpSession.getAttribute("member");
@@ -46,7 +46,7 @@ public class FboardReplyService implements Service {
 			int fstep = Integer.parseInt(mRequest.getParameter("fstep"));
 			int findent = Integer.parseInt(mRequest.getParameter("findent"));
 			FboardDao fboardDao = FboardDao.getInstance();
-			FboardDto fboardDto = new FboardDto(0, ftitle, fcontent, ffileName, null, 0, fgroup, fstep, findent, mid, null, fip);
+			FboardDto fboardDto = new FboardDto(0, ftitle, fcontent, fimage, null, 0, fgroup, fstep, findent, mid, null, fip);
 			int result = fboardDao.replyFboard(fboardDto);
 			// joinMember결과에 따라 적절히 request.setAttribute
 			if(result == FboardDao.SUCCESS) { // 회원가입 진행
@@ -61,13 +61,13 @@ public class FboardReplyService implements Service {
 			request.setAttribute("fboardResult", "답글쓰기 실패");
 		}
 		// 서버에 올라간 fboardUp 파일을 소스폴더에 filecopy
-		if(ffileName!=null) {
+		if(fimage!=null) {
 			InputStream  is = null;
 			OutputStream os = null;
 			try {
-				File serverFile = new File(path+"/"+ffileName);
+				File serverFile = new File(path+"/"+fimage);
 				is = new FileInputStream(serverFile);
-				os = new FileOutputStream("D:/YeosongYoon/WebProgramming/Source/08_1stProject/LeagueWebzine/WebContent/fboardUp/"+ffileName);
+				os = new FileOutputStream("D:/YeosongYoon/WebProgramming/Source/08_1stProject/LeagueWebzine/WebContent/fboardUp/"+fimage);
 				byte[] bs = new byte[(int)serverFile.length()];
 				while(true) {
 					int nByteCnt = is.read(bs);

@@ -12,6 +12,7 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
+import com.lec.lw.dto.FcommentDto;
 import com.lec.lw.dto.GcommentDto;
 
 public class GcommentDao {
@@ -64,7 +65,7 @@ public class GcommentDao {
 		Connection        conn  = null;
 		PreparedStatement pstmt = null;
 		ResultSet         rs    = null;
-		String sql = "SELECT * FROM GCOMMENT WHERE GNUM=? ORDER BY GCDATE";
+		String sql = "SELECT G.*, MNICKNAME FROM GCOMMENT G, MEMBER M WHERE M.MID=G.MID AND GNUM=? ORDER BY GCDATE";
 		try {
 			conn = ds.getConnection();
 			pstmt = conn.prepareStatement(sql);
@@ -91,7 +92,38 @@ public class GcommentDao {
 		}
 		return dtos;
 	}
-	// (3) 댓글 수정
+	// (3) 댓글 수정 VIEW
+	public GcommentDto gcommentModifyView(int gcnum) {
+		GcommentDto dto = null;
+		Connection      conn  = null;
+		PreparedStatement pstmt = null;
+		ResultSet         rs    = null;
+		String sql = "SELECT G.*, MNICKNAME FROM GCOMMENT G, MEMBER M WHERE GCNUM=? AND G.MID=M.MID";
+		try {
+			conn = ds.getConnection();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, gcnum);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				int gnum = rs.getInt("gnum");
+				String gccontent = rs.getString("gccontent");
+				String mid = rs.getString("mid");
+				String mnickname = rs.getString("mnickname");
+				Timestamp gcdate = rs.getTimestamp("gcdate");
+				dto = new GcommentDto(gcnum, mid, mnickname, gnum, gccontent, gcdate);
+			}
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}finally {
+			try {
+				if(rs   !=null) rs.close();
+				if(pstmt!=null) pstmt.close();
+				if(conn !=null) conn.close();
+			} catch (SQLException e) {System.out.println(e.getMessage());}
+		}
+		return dto;
+	}
+	// (4) 댓글 수정
 	public int modifyGcomment(GcommentDto dto) {
 		int result = FAIL;
 		Connection        conn  = null;
@@ -116,7 +148,7 @@ public class GcommentDao {
 		}
 		return result;
 	}
-	// (4) 댓글 삭제
+	// (5) 댓글 삭제
 	public int deleteGcomment(int gcnum) {
 		int result = FAIL;
 		Connection        conn  = null;

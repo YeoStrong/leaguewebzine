@@ -31,7 +31,7 @@ public class VboardDao {
 		}
 	}
 	// (1) 글목록(startRow~endRow)
-	public ArrayList<VboardDto> listVboard(int startRow, int endRow){
+	public ArrayList<VboardDto> listVboard(String schword, int startRow, int endRow){
 		ArrayList<VboardDto> dtos = new ArrayList<VboardDto>();
 		Connection        conn  = null;
 		PreparedStatement pstmt = null;
@@ -40,14 +40,15 @@ public class VboardDao {
 				"    FROM (SELECT ROWNUM RN, B.*" + 
 				"        FROM (SELECT V.*, MNICKNAME" + 
 				"            FROM VBOARD V, MEMBER M" + 
-				"            WHERE V.MID = M.MID" + 
+				"            WHERE V.MID = M.MID AND VTITLE LIKE '%'||TRIM(?)||'%'" + 
 				"            ORDER BY VNUM DESC) B)" + 
 				"    WHERE RN BETWEEN ? AND ?";
 		try {
 			conn = ds.getConnection();
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, startRow);
-			pstmt.setInt(2, endRow);
+			pstmt.setString(1, schword);
+			pstmt.setInt(2, startRow);
+			pstmt.setInt(3, endRow);
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
 				int    vnum      = rs.getInt("vnum");
@@ -76,15 +77,17 @@ public class VboardDao {
 		return dtos;
 	}
 	// (2) 글갯수
-	public int getVboardTotCnt() {
+	public int getVboardTotCnt(String schword) {
 		int totCnt = 0;
 		Connection        conn  = null;
 		PreparedStatement pstmt = null;
 		ResultSet         rs    = null;
-		String sql = "SELECT COUNT(*) FROM VBOARD";
+		String sql = "SELECT COUNT(*) CNT FROM VBOARD V, MEMBER M" + 
+				"    WHERE V.MID = M.MID AND VTITLE LIKE '%'||TRIM(?)||'%'";
 		try {
 			conn = ds.getConnection();
 			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, schword);
 			rs = pstmt.executeQuery();
 			rs.next();
 			totCnt = rs.getInt(1);
@@ -115,8 +118,8 @@ public class VboardDao {
 			pstmt.setString(2, dto.getVtitle());
 			pstmt.setString(3, dto.getVcontent());
 			pstmt.setString(4, dto.getVvideo());
-			pstmt.setString(6, dto.getMid());
-			pstmt.setString(8, dto.getVip());
+			pstmt.setString(5, dto.getMid());
+			pstmt.setString(6, dto.getVip());
 			pstmt.executeUpdate();
 			result = SUCCESS;
 			System.out.println("원글쓰기 성공");
@@ -160,7 +163,7 @@ public class VboardDao {
 		Connection        conn  = null;
 		PreparedStatement pstmt = null;
 		ResultSet         rs    = null;
-		String sql = "SELECT V.*, MNICKNAME FROM VBOARD V, MEMBER M  WHERE V.MID=M.MID AND M.MID=?";
+		String sql = "SELECT V.*, MNICKNAME FROM VBOARD V, MEMBER M  WHERE V.MID=M.MID AND VNUM=?";
 		try {
 			conn = ds.getConnection();
 			pstmt = conn.prepareStatement(sql);
@@ -197,7 +200,7 @@ public class VboardDao {
 		Connection        conn  = null;
 		PreparedStatement pstmt = null;
 		ResultSet         rs    = null;
-		String sql = "SELECT V.*, MNICKNAME FROM VBOARD V, MEMBER M  WHERE V.MID=M.MID AND M.MID=?";
+		String sql = "SELECT V.*, MNICKNAME FROM VBOARD V, MEMBER M  WHERE V.MID=M.MID AND VNUM=?";
 		try {
 			conn = ds.getConnection();
 			pstmt = conn.prepareStatement(sql);

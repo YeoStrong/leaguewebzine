@@ -10,6 +10,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.lec.lw.service.ALoginService;
+import com.lec.lw.service.FboardCommentDeleteService;
+import com.lec.lw.service.FboardCommentModifyService;
+import com.lec.lw.service.FboardCommentModifyViewService;
+import com.lec.lw.service.FboardCommentService;
 import com.lec.lw.service.FboardContentService;
 import com.lec.lw.service.FboardDeleteService;
 import com.lec.lw.service.FboardListService;
@@ -18,6 +22,10 @@ import com.lec.lw.service.FboardModifyViewService;
 import com.lec.lw.service.FboardReplyService;
 import com.lec.lw.service.FboardReplyViewService;
 import com.lec.lw.service.FboardWriteService;
+import com.lec.lw.service.GboardCommentDeleteService;
+import com.lec.lw.service.GboardCommentModifyService;
+import com.lec.lw.service.GboardCommentModifyViewService;
+import com.lec.lw.service.GboardCommentService;
 import com.lec.lw.service.GboardContentService;
 import com.lec.lw.service.GboardDeleteService;
 import com.lec.lw.service.GboardListService;
@@ -30,6 +38,7 @@ import com.lec.lw.service.MLoginService;
 import com.lec.lw.service.MLogoutService;
 import com.lec.lw.service.MModifyService;
 import com.lec.lw.service.MWithdrawalService;
+import com.lec.lw.service.MainPageService;
 import com.lec.lw.service.MidConfirmService;
 import com.lec.lw.service.MnicknameConfirmService;
 import com.lec.lw.service.NboardContentService;
@@ -39,6 +48,10 @@ import com.lec.lw.service.NboardModifyService;
 import com.lec.lw.service.NboardModifyViewService;
 import com.lec.lw.service.NboardWriteService;
 import com.lec.lw.service.Service;
+import com.lec.lw.service.VboardCommentDeleteService;
+import com.lec.lw.service.VboardCommentModifyService;
+import com.lec.lw.service.VboardCommentModifyViewService;
+import com.lec.lw.service.VboardCommentService;
 import com.lec.lw.service.VboardContentService;
 import com.lec.lw.service.VboardDeleteService;
 import com.lec.lw.service.VboardListService;
@@ -68,6 +81,8 @@ public class FrontController extends HttpServlet {
 		String viewPage = null;
 		Service service = null;
 		if(command.equals("/main.do")) { // 첫화면
+			service = new MainPageService();
+			service.execute(request, response);
 			viewPage = "main/main.jsp";
 		}
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * 
@@ -191,6 +206,22 @@ public class FrontController extends HttpServlet {
 			service = new FboardReplyService();
 			service.execute(request, response);
 			viewPage = "fboardList.do";
+		}else if(command.equals("/fboardComment.do")) {
+			service = new FboardCommentService();
+			service.execute(request, response);
+			viewPage = "fboardContent.do";
+		}else if(command.equals("/fboardCommentModifyView.do")) {
+			service = new FboardCommentModifyViewService();
+			service.execute(request, response);
+			viewPage = "fboard/fcommentModify.jsp";
+		}else if(command.equals("/fboardCommentModify.do")) {
+			service = new FboardCommentModifyService();
+			service.execute(request, response);
+			viewPage = "fboardContent.do";
+		}else if(command.equals("/fboardCommentDelete.do")) {
+			service = new FboardCommentDeleteService();
+			service.execute(request, response);
+			viewPage = "fboardContent.do";
 		}
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * 
 		 * * * * * * * * 공략게시판 관련 요청  * * * * * * * * * *
@@ -221,6 +252,22 @@ public class FrontController extends HttpServlet {
 			service = new GboardDeleteService();
 			service.execute(request, response);
 			viewPage = "gboardList.do";
+		}else if(command.equals("/gboardComment.do")) {
+			service = new GboardCommentService();
+			service.execute(request, response);
+			viewPage = "gboardContent.do";
+		}else if(command.equals("/gboardCommentModifyView.do")) {
+			service = new GboardCommentModifyViewService();
+			service.execute(request, response);
+			viewPage = "gboard/gcommentModify.jsp";
+		}else if(command.equals("/gboardCommentModify.do")) {
+			service = new GboardCommentModifyService();
+			service.execute(request, response);
+			viewPage = "gboardContent.do";
+		}else if(command.equals("/gboardCommentDelete.do")) {
+			service = new GboardCommentDeleteService();
+			service.execute(request, response);
+			viewPage = "gboardContent.do";
 		}
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * 
 		 * * * * * * * * 영상게시판 관련 요청  * * * * * * * * * * *
@@ -251,6 +298,22 @@ public class FrontController extends HttpServlet {
 			service = new VboardDeleteService();
 			service.execute(request, response);
 			viewPage = "vboardList.do";
+		}else if(command.equals("/vboardComment.do")) {
+			service = new VboardCommentService();
+			service.execute(request, response);
+			viewPage = "vboardContent.do";
+		}else if(command.equals("/vboardCommentModifyView.do")) {
+			service = new VboardCommentModifyViewService();
+			service.execute(request, response);
+			viewPage = "vboard/vcommentModify.jsp";
+		}else if(command.equals("/vboardCommentModify.do")) {
+			service = new VboardCommentModifyService();
+			service.execute(request, response);
+			viewPage = "vboardContent.do";
+		}else if(command.equals("/vboardCommentDelete.do")) {
+			service = new VboardCommentDeleteService();
+			service.execute(request, response);
+			viewPage = "vboardContent.do";
 		}
 		RequestDispatcher dispatcher = request.getRequestDispatcher(viewPage);
 		dispatcher.forward(request, response);

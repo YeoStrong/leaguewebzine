@@ -30,49 +30,52 @@
 	</c:if>
 	<jsp:include page="../main/header.jsp"/>
 	<div id="content_form">
-		<table>
+		<table class="table caption-top w-75 align-middle">
 			<caption>전체회원보기</caption>
 			<tr>
-				<c:forEach var="dto" items="${members }">
-					<td>
-						<img src="${conPath }/memberPhotoUp/${dto.mphoto}"
-								alt="${dto.mname }사진" width="120">
-						<p>
-							${dto.mname }<br>
-							(${dto.mid })
-						</p>
-					</td>
-				</c:forEach>
+				<th>ID</th><th>닉네임</th><th>인증사진</th><th>등급</th><th>가입일</th>
 			</tr>
+			<c:forEach var="dto" items="${members }">
+				<tr>
+					<td>
+						${dto.mid }
+					</td>
+					<td>
+						${dto.mnickname }
+					</td>
+					<td>
+						<c:if test="${dto.mphoto != 'NOIMG.JPG' }">
+							○
+						</c:if>
+						<c:if test="${dto.mphoto eq 'NOIMG.JPG'}">
+							X
+						</c:if>
+					</td>
+					<td>
+						${dto.llevelnum }
+					</td>
+					<td>
+						${dto.mrdate }
+					</td>
+				</tr>
+			</c:forEach>
 		</table>
-		<p class="paging">
-			<a href="${conPath }/allView.do?pageNum=1">&lt;&lt;</a>
-			&nbsp; &nbsp; &nbsp;
-			<c:if test="${BLOCKSIZE < startPage}">
-				<a href="${conPath }/allView.do?pageNum=${startPage-1}">&lt;</a>
+		<div class="paging">
+			<c:if test="${startPage > BLOCKSIZE }">
+				[ <a href="${conPath }/allView.do?pageNum=${startPage-1}&schword=${schword}"> 이전 </a> ]
 			</c:if>
-			<c:if test="${BLOCKSIZE >= startPage }">
-				&lt;
-			</c:if>
-			&nbsp; &nbsp; &nbsp;
 			<c:forEach var="i" begin="${startPage }" end="${endPage }">
-				<c:if test="${i eq pageNum }">
-					[ <b> ${i } </b> ]
+				<c:if test="${i == pageNum }">
+					<b> [ ${i } ] </b>
 				</c:if>
 				<c:if test="${i != pageNum }">
-					[ <a href="${conPath }/allView.do?pageNum=${i }"> ${i } </a> ]
+					[ <a href="${conPath }/allView.do?pageNum=${i}&schword=${schword}"> ${i } </a> ]
 				</c:if>
 			</c:forEach>
-			&nbsp; &nbsp; &nbsp;
-			<c:if test="${endPage < pageCnt }">
-				<a href="${conPath }/allView.do?pageNum=${endPage+1 }">&gt;</a>
+			<c:if test="${endPage<pageCnt }">
+			  [ <a href="${conPath }/allView.do?pageNum=${endPage+1}&schword=${schword}"> 다음 </a> ]
 			</c:if>
-			<c:if test="${endPage == pageCnt }">
-				&gt;
-			</c:if>
-			&nbsp; &nbsp; &nbsp;
-			<a href="${conPath }/allView.do?pageNum=${pageCnt }">&gt;&gt;</a>
-		</p>
+		</div>
 	</div>
 	<jsp:include page="../main/footer.jsp"/>
 </body>

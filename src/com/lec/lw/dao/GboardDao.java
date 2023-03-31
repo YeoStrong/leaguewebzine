@@ -31,7 +31,7 @@ public class GboardDao {
 		}
 	}
 	// (1) 글목록(startRow~endRow)
-	public ArrayList<GboardDto> listGboard(int startRow, int endRow){
+	public ArrayList<GboardDto> listGboard(String schword, int startRow, int endRow){
 		ArrayList<GboardDto> dtos = new ArrayList<GboardDto>();
 		Connection        conn  = null;
 		PreparedStatement pstmt = null;
@@ -40,14 +40,15 @@ public class GboardDao {
 				"    FROM (SELECT ROWNUM RN, B.*" + 
 				"        FROM (SELECT G.*, MNICKNAME" + 
 				"            FROM GBOARD G, MEMBER M" + 
-				"            WHERE G.MID = M.MID" + 
+				"            WHERE G.MID = M.MID AND GTITLE LIKE  '%'||TRIM(?)||'%'" + 
 				"            ORDER BY GNUM DESC) B)" + 
 				"    WHERE RN BETWEEN ? AND ?";
 		try {
 			conn = ds.getConnection();
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, startRow);
-			pstmt.setInt(2, endRow);
+			pstmt.setString(1, schword);
+			pstmt.setInt(2, startRow);
+			pstmt.setInt(3, endRow);
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
 				int    gnum      = rs.getInt("gnum");
@@ -79,15 +80,17 @@ public class GboardDao {
 		return dtos;
 	}
 	// (2) 글갯수
-	public int getGboardTotCnt() {
+	public int getGboardTotCnt(String schword) {
 		int totCnt = 0;
 		Connection        conn  = null;
 		PreparedStatement pstmt = null;
 		ResultSet         rs    = null;
-		String sql = "SELECT COUNT(*) FROM GBOARD";
+		String sql = "SELECT COUNT(*) CNT FROM GBOARD G, MEMBER M" + 
+				"    WHERE G.MID = M.MID AND GTITLE LIKE '%'||TRIM(?)||'%'";
 		try {
 			conn = ds.getConnection();
 			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, schword);
 			rs = pstmt.executeQuery();
 			rs.next();
 			totCnt = rs.getInt(1);

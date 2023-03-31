@@ -25,16 +25,19 @@ public class FboardListService implements Service {
 		final int PAGESIZE=10, BLOCKSIZE=10;
 		int startRow = (currentPage-1) * PAGESIZE +1;
 		int endRow   = startRow + PAGESIZE -1;
+		String schword = request.getParameter("schword");
+		if(schword==null) schword = "";
 		FboardDao fboardDao = FboardDao.getInstance();
-		ArrayList<FboardDto> boardList = fboardDao.listFboard(startRow, endRow);
-		request.setAttribute("boardList", boardList);
-		int totCnt = fboardDao.getFboardTotCnt(); // 글갯수
+		ArrayList<FboardDto> fboardList = fboardDao.listFboard(schword, startRow, endRow);
+		request.setAttribute("fboardList", fboardList);
+		int totCnt = fboardDao.fboardTotCnt(schword); // 글갯수
 		int pageCnt = (int)Math.ceil((double)totCnt/PAGESIZE);//페이지갯수
 		int startPage = ((currentPage-1)/BLOCKSIZE)*BLOCKSIZE+1;
 		int endPage = startPage + BLOCKSIZE - 1;
 		if(endPage>pageCnt) {
 			endPage = pageCnt;
 		}
+		request.setAttribute("schword", schword);
 		request.setAttribute("BLOCKSIZE", BLOCKSIZE);
 		request.setAttribute("startPage", startPage);
 		request.setAttribute("endPage", endPage);

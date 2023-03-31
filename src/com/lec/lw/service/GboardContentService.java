@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.lec.lw.dao.GboardDao;
+import com.lec.lw.dao.GcommentDao;
 import com.lec.lw.dto.GboardDto;
 
 public class GboardContentService implements Service {
@@ -15,6 +16,8 @@ public class GboardContentService implements Service {
 		GboardDao gboardDao = GboardDao.getInstance();
 		GboardDto gboard = gboardDao.contentGboard(gnum);
 		request.setAttribute("gboard", gboard);
+		GcommentDao fcDao = GcommentDao.getInstance();
+		request.setAttribute("gcomment", fcDao.listGcomment(gnum));
 	}
 
 }

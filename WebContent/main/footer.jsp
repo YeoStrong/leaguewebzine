@@ -8,27 +8,21 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<style>
-	body { background-color: #ffffaa; }
-	footer {height:100px;background-color: #003300;}
-	footer #footer_conts, footer #footer_conts a {
-		color:white;
-		font-weight: blod;
-		font-size:0.9em;
-		text-align: center;
-	}
-	footer #footer_conts p:first-child {
-		font-weight: bold; height: 30px; line-height: 30px;
-	}
-</style>
+<meta name="theme-color" content="#712cf9">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
 </head>
 <body>
-	<footer>
-		<div id="footer_conts">
-			<p>(주)좋은시스템 402</p> 
-			<p>서울특별시 어떤구 어떤로 9 좋은빌딩 1-5F | <b><a href="${conPath }/adminLoginView.do">관리자 모드</a></b></p>
-			<p>Copyright© 2022 tj . All rights reserved.</p>
-		</div>
-	</footer>
+	<div id="footer" class="container">
+	  <footer class="py-3 my-4">
+	    <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+	      <li class="nav-item"><a href="${conPath }/main.do" class="nav-link px-2 text-muted">Home</a></li>
+	      <li class="nav-item"><a href="${conPath }/nboardList.do" class="nav-link px-2 text-muted">Notice</a></li>
+	      <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">About</a></li>
+	      <li class="nav-item"><a href="${conPath }/adminLoginView.do" class="nav-link px-2 text-muted">admin mode</a></li>
+	    </ul>
+	    <p class="text-center text-muted">&copy; 2023 Company, Inc</p>
+	  </footer>
+	</div>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
 </body>
 </html>

@@ -9,12 +9,6 @@
 	<meta charset="UTF-8">
 	<title>Insert title here</title>
 	<link href="${conPath }/css/style.css" rel="stylesheet">
-	<style>
-		#content_form {
-				height:400px; 
-				margin: 20px auto 80px;
-		}
-	</style>
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
   <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
   <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
@@ -82,12 +76,12 @@
 		<form action="${conPath }/modify.do" method="post" enctype="multipart/form-data">
 			<input type="hidden" name="dbMpw" value="${member.mpw }">
 			<input type="hidden" name="dbMphoto" value="${member.mphoto }">
-			<table>
+			<table class="table caption-top w-50 align-middle">
 				<caption>정보수정</caption>
 				<tr>
 					<th>아이디</th>
 					<td>
-						<input type="text" name="mid" value="${member.mid }" readonly="readonly" size="3">
+						<input type="text" name="mid" class="form-control" value="${member.mid }" readonly="readonly" size="3">
 					</td>
 					<td rowspan="4">
 						<img src="${conPath }/memberPhotoUp/${member.mphoto}"
@@ -97,71 +91,74 @@
 				<tr>
 					<th>닉네임</th>
 					<td>
-						<input type="text" name="mnickname" value="${member.mnickname }">
+						<input type="text" name="mnickname" class="form-control" value="${member.mnickname }">
 						<div id="mnicknameConfirmResult"> &nbsp; </div>
 					 </td>
 				</tr>
 				<tr>
 					<th>현비밀번호</th>
 					<td>
-						<input type="password" name="oldMpw">
+						<input type="password" name="oldMpw" class="form-control">
 					 </td>
 				</tr>
 				<tr>
 					<th>새비밀번호</th>
-					<td><input type="password" name="mpw" size="3"></td>
+					<td><input type="password" name="mpw" class="form-control"></td>
 				</tr>
 				<tr>
 					<th>이름</th>
 					<td colspan="2">
-						<input type="text" name="mname" value="${member.mname }" required="required" size="3">
+						<input type="text" name="mname" class="form-control" value="${member.mname }" required="required" size="3">
 					</td>
 				</tr>
 				<tr>
 					<th>전화번호</th>
 					<td colspan="2">
-						<input type="text" name="mtel" value="${member.mtel }">
+						<input type="text" name="mtel" class="form-control" value="${member.mtel }">
 					</td>
 				</tr>
 				<tr>
 					<th>생년월일</th>
 					<td colspan="2">
-						<input type="text" name="mbirth" value="${member.mbirth }"
+						<input type="text" name="mbirth" class="form-control" value="${member.mbirth }"
 							id="datepicker">
 					</td>
 				</tr>
 				<tr>
 					<th>메일</th>
 					<td colspan="2">
-						<input type="email" name="memail" value="${member.memail }">
+						<input type="email" name="memail" class="form-control" value="${member.memail }">
 					</td>
 				</tr>
 				<tr>
 					<th>성별</th>
 					<td style="text-align: left;">
-  						&nbsp; &nbsp; &nbsp; <input type='radio' name='mgender' value='남성' class="btn" ${member.mgender eq "남성"? "checked":"" }  />남성
+  						<input type='radio' name='mgender' value='남성' class="btn" ${member.mgender eq "남성"? "checked":"" }  />남성
 						<input type='radio' name='mgender' value='여성' class="btn" ${member.mgender eq "여성"? "checked":"" } />여성
 					</td>
 				</tr>
 				<tr>
 					<th>인증사진</th>
 					<td colspan="2">
-						<input type="file" name="mphoto">
+						<input type="file" name="mphoto" class="form-control" style="margin:0 0 0 0px;">
 					</td>
 				</tr>
 				<tr>
 					<th>주소</th>
 					<td colspan="2">
-						<input type="text" name="maddress" value="${member.maddress }">
+						<input type="text" name="maddress" class="form-control" value="${member.maddress }">
 					</td>
 				</tr>
 				<tr>
-					<td colspan="3">
-						<input type="submit" value="정보수정" class="btn">
-						<input type="reset" value="초기화" class="btn">
-						<input type="reset" value="이전" onclick="history.back()" class="btn">
-						<input type="button" value="회원탈퇴" class="btn"
-							onclick="location.href='${conPath}/withdrawal.do'">
+					<td colspan="3" style="text-align: center;">
+						<p>
+							<button type="submit" class="btn btn-secondary btn-sm" >정보수정</button>
+							<button type="reset" class="btn btn-secondary btn-sm" >초기화</button>
+							<button type="reset" class="btn btn-secondary btn-sm" 
+							onclick="history.back()" >이전</button>
+							<button type="button" class="btn btn-secondary btn-sm"
+							onclick="location.href='${conPath}/withdrawal.do'" >회원탈퇴</button>
+						</p>
 					</td>
 				</tr>
 			</table>

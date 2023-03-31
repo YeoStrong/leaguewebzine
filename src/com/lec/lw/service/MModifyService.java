@@ -72,8 +72,16 @@ public class MModifyService implements Service {
 			String memail = mRequest.getParameter("memail");
 			String mgender = mRequest.getParameter("mgender");
 			String maddress = mRequest.getParameter("maddress");
-			int llevelnum = Integer.parseInt(mRequest.getParameter("llevelnum"));
-			int mwithdrawal = Integer.parseInt(mRequest.getParameter("mwithdrawal"));
+			String llevelnumStr = mRequest.getParameter("llevelnum");
+			int llevelnum = 1;
+			if(llevelnumStr!=null) {
+				llevelnum = Integer.parseInt(llevelnumStr);				
+			}
+			String mwithdrawalStr = mRequest.getParameter("mwithdrawal");
+			int mwithdrawal = 1;
+			if(mwithdrawalStr!=null) {
+				mwithdrawal = Integer.parseInt(mwithdrawalStr);				
+			}
 			// 회원정보 수정
 			MemberDao mDao = MemberDao.getInstance();
 			MemberDto mDto = new MemberDto(mid, mnickname, mpw, mname, mtel, mbirth, memail, mgender, dbMphoto, maddress, null, llevelnum, mwithdrawal);

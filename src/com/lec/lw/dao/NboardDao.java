@@ -12,6 +12,7 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
+import com.lec.lw.dto.FboardDto;
 import com.lec.lw.dto.NboardDto;
 
 public class NboardDao {
@@ -30,8 +31,8 @@ public class NboardDao {
 			System.out.println(e.getMessage());
 		}
 	}
-	// (1) 글목록(startRow~endRow)
-	public ArrayList<NboardDto> listNboard(int startRow, int endRow){
+	// (1) 글 목록 출력
+	public ArrayList<NboardDto> listNboard(String schword, int startRow, int endRow){
 		ArrayList<NboardDto> dtos = new ArrayList<NboardDto>();
 		Connection        conn  = null;
 		PreparedStatement pstmt = null;
@@ -40,14 +41,15 @@ public class NboardDao {
 				"    FROM (SELECT ROWNUM RN, B.*" + 
 				"        FROM (SELECT N.*, ANICKNAME" + 
 				"            FROM NBOARD N, ADMIN A" + 
-				"            WHERE N.AID = A.AID" + 
+				"            WHERE N.AID = A.AID AND NTITLE LIKE '%'||TRIM(?)||'%'" + 
 				"            ORDER BY NNUM DESC) B)" + 
 				"    WHERE RN BETWEEN ? AND ?";
 		try {
 			conn = ds.getConnection();
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, startRow);
-			pstmt.setInt(2, endRow);
+			pstmt.setString(1, schword);
+			pstmt.setInt(2, startRow);
+			pstmt.setInt(3, endRow);
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
 				int    nnum      = rs.getInt("nnum");
@@ -57,7 +59,7 @@ public class NboardDao {
 				Timestamp ndate = rs.getTimestamp("ndate");
 				int    nhit     = rs.getInt("nhit");
 				String aid      = rs.getString("aid");
-				String anickname      = rs.getString("anickname");
+				String anickname= rs.getString("anickname");
 				dtos.add(new NboardDto(nnum, ntitle, ncontent, nimage, ndate, nhit, aid, anickname));
 			}
 		} catch (SQLException e) {
@@ -73,19 +75,21 @@ public class NboardDao {
 		}
 		return dtos;
 	}
-	// (2) 글갯수
-	public int getNboardTotCnt() {
+	// (1)-1 글갯수
+	public int nboardTotCnt(String schword) {
 		int totCnt = 0;
 		Connection        conn  = null;
 		PreparedStatement pstmt = null;
 		ResultSet         rs    = null;
-		String sql = "SELECT COUNT(*) FROM NBOARD";
+		String sql = "SELECT COUNT(*) CNT FROM NBOARD N, ADMIN A" + 
+				"    WHERE N.AID = A.AID AND NTITLE LIKE '%'||TRIM(?)||'%'";
 		try {
 			conn = ds.getConnection();
 			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, schword);
 			rs = pstmt.executeQuery();
 			rs.next();
-			totCnt = rs.getInt(1);
+			totCnt = rs.getInt("cnt");
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		} finally {

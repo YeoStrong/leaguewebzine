@@ -3,7 +3,9 @@ package com.lec.lw.service;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.lec.lw.dao.FcommentDao;
 import com.lec.lw.dao.VboardDao;
+import com.lec.lw.dao.VcommentDao;
 import com.lec.lw.dto.VboardDto;
 
 public class VboardContentService implements Service {
@@ -15,6 +17,8 @@ public class VboardContentService implements Service {
 		VboardDao vboardDao = VboardDao.getInstance();
 		VboardDto vboard = vboardDao.contentVboard(vnum);
 		request.setAttribute("vboard", vboard);
+		VcommentDao vcDao = VcommentDao.getInstance();
+		request.setAttribute("vcomment", vcDao.listVcomment(vnum));
 	}
 
 }

@@ -31,7 +31,7 @@ public class FboardDao {
 		}
 	}
 	// (1) 글목록(startRow~endRow)
-	public ArrayList<FboardDto> listFboard(int startRow, int endRow){
+	public ArrayList<FboardDto> listFboard(String schword, int startRow, int endRow){
 		ArrayList<FboardDto> dtos = new ArrayList<FboardDto>();
 		Connection        conn  = null;
 		PreparedStatement pstmt = null;
@@ -40,14 +40,15 @@ public class FboardDao {
 				"    FROM (SELECT ROWNUM RN, A.*" + 
 				"        FROM (SELECT F.*, MNICKNAME" + 
 				"            FROM FBOARD F, MEMBER M" + 
-				"            WHERE F.MID = M.MID" + 
+				"            WHERE F.MID = M.MID AND FTITLE LIKE '%'||TRIM(?)||'%'" + 
 				"            ORDER BY FGROUP DESC, FSTEP) A)" + 
 				"    WHERE RN BETWEEN ? AND ?";
 		try {
 			conn = ds.getConnection();
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, startRow);
-			pstmt.setInt(2, endRow);
+			pstmt.setString(1, schword);
+			pstmt.setInt(2, startRow);
+			pstmt.setInt(3, endRow);
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
 				int    fnum      = rs.getInt("fnum");
@@ -78,18 +79,20 @@ public class FboardDao {
 		return dtos;
 	}
 	// (2) 글갯수
-	public int getFboardTotCnt() {
+	public int fboardTotCnt(String schword) {
 		int totCnt = 0;
 		Connection        conn  = null;
 		PreparedStatement pstmt = null;
 		ResultSet         rs    = null;
-		String sql = "SELECT COUNT(*) FROM FBOARD";
+		String sql = "SELECT COUNT(*) CNT FROM FBOARD F, MEMBER M" + 
+				"            WHERE F.MID = M.MID AND FTITLE LIKE '%'||TRIM(?)||'%'";
 		try {
 			conn = ds.getConnection();
 			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, schword);
 			rs = pstmt.executeQuery();
 			rs.next();
-			totCnt = rs.getInt(1);
+			totCnt = rs.getInt("cnt");
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		} finally {
@@ -161,7 +164,7 @@ public class FboardDao {
 		Connection        conn  = null;
 		PreparedStatement pstmt = null;
 		ResultSet         rs    = null;
-		String sql = "SELECT F.*, MNAME FROM FBOARD F, MEMBER M  WHERE F.MID=M.MID AND FNUM=?";
+		String sql = "SELECT F.*, MNICKNAME FROM FBOARD F, MEMBER M  WHERE F.MID=M.MID AND FNUM=?";
 		try {
 			conn = ds.getConnection();
 			pstmt = conn.prepareStatement(sql);
@@ -200,7 +203,7 @@ public class FboardDao {
 			Connection        conn  = null;
 			PreparedStatement pstmt = null;
 			ResultSet         rs    = null;
-			String sql = "SELECT F.*, MNAME FROM FBOARD F, MEMBER M  WHERE F.MID=M.MID AND FNUM=?";
+			String sql = "SELECT F.*, MNICKNAME FROM FBOARD F, MEMBER M  WHERE F.MID=M.MID AND FNUM=?";
 			try {
 				conn = ds.getConnection();
 				pstmt = conn.prepareStatement(sql);

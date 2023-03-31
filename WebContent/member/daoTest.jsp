@@ -22,7 +22,7 @@
 	}else if(MemberDao.NONEXISTENT == dao.midConfirm("abc")){
 		out.println("abc는 사용가능한 ID");
 	} %>
-	<%
+	<%--
 	out.println("<h3>2.회원가입</h3>");
 	int result = dao.joinMember(new MemberDto("zxc", "으흠", "1", null, null, null, null, null, null, null, null, 1, 1));
 	if(result == MemberDao.SUCCESS){
@@ -42,7 +42,7 @@
 	out.println("<h3>4.mid로 dto가져오기</h3>");
 	MemberDto member = dao.getMember("aaa");
 	out.println("<p>"+member+"</p>");
-%>
+--%>
 <h1>5. 회원정보 수정(abc회원정보 수정)</h1>
 	<%--
 		String mid = "abc";
@@ -63,9 +63,10 @@
 	--%>
 	<h1>7. 회원수 : <%--=dao.getMemberTotCnt() --%></h1>
 	<h1>8. abc회원 탈퇴</h1>
-	<%--
-		result = dao.withdrawalMember(mid);
+	<%
+		String mid = "king";
+	    int result = dao.withdrawalMember(mid);
 		out.println(result == MemberDao.SUCCESS? "탈퇴 완료":"탈퇴 실패");
-	--%>
+	%>
 </body>
 </html>
