@@ -81,7 +81,7 @@
 				<tr>
 					<th>아이디</th>
 					<td>
-						<input type="text" name="mid" class="form-control" value="${member.mid }" disabled readonly>
+						<input type="text" name="mid" class="form-control" value="${member.mid }" readonly="readonly" size="3">
 					</td>
 					<td rowspan="4">
 						<img src="${conPath }/memberPhotoUp/${member.mphoto}"

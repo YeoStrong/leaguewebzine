@@ -14,11 +14,11 @@
 메인페이지 img
 
 ## 목차
-[1. 작업분할 구조도]()<br>
-[2. Gantt Chart]()<br>
-[3. 이용자 권한]()<br>
-[4. Usecase Diagram]()<br>
-[5. Sequence Diagram]()<br>
+[1. 작업분할 구조도](https://github.com/YeoStrong/leaguewebzine#%EC%9E%91%EC%97%85%EB%B6%84%ED%95%A0%EB%8F%84)<br>
+[2. Gantt Chart](https://github.com/YeoStrong/leaguewebzine#%EC%9E%91%EC%97%85%EB%B6%84%ED%95%A0%EB%8F%84)<br>
+[3. 이용자 권한](https://github.com/YeoStrong/leaguewebzine#%EC%9E%91%EC%97%85%EB%B6%84%ED%95%A0%EB%8F%84)<br>
+[4. Usecase Diagram](https://github.com/YeoStrong/leaguewebzine#%EC%9E%91%EC%97%85%EB%B6%84%ED%95%A0%EB%8F%84)<br>
+[5. Sequence Diagram](https://github.com/YeoStrong/leaguewebzine#%EC%9E%91%EC%97%85%EB%B6%84%ED%95%A0%EB%8F%84)<br>
 [6. 기능정의서]()<br>
 [7. E-R Diagram]()<br>
 [8. Project Source Explorer]()<br>
@@ -40,3 +40,11 @@
 ## Sequence Diagram
 ![7 sequenceDiagram](https://user-images.githubusercontent.com/86854402/228998594-38a15aa9-3863-413c-b907-70ae8c3e19e0.JPG)
 ![8 sequenceDiagram](https://user-images.githubusercontent.com/86854402/228998597-960aed93-d30f-471a-bee7-d2931cf17117.JPG)
+
+## 기능정의서
+
+## E-R Diagram
+
+## Project Source Explorer
+
+## 실행화면 설명

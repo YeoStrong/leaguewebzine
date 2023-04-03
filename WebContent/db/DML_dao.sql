@@ -1,5 +1,5 @@
 ----------------------------------------------------------------------
------------------------------  MEMBER_DAO  ---------------------------
+-----------------------------  MAIN_DAO  ---------------------------
 ----------------------------------------------------------------------
 -- (1) 공지사항 상위 5개
 SELECT *
@@ -78,6 +78,24 @@ SELECT COUNT(*) CNT FROM MEMBER;
 COMMIT;
 UPDATE MEMBER SET MWITHDRAWAL=0 WHERE MID='king';
 ROLLBACK;
+-- (10) 본인 글 갯수(게시판별)
+-- 공략
+SELECT COUNT(*) CNT FROM GBOARD WHERE MID='abc';
+-- 자유
+SELECT COUNT(*) CNT FROM FBOARD WHERE MID='abc';
+-- 영상
+SELECT COUNT(*) CNT FROM VBOARD WHERE MID='abc';
+-- (11) 본인 댓글 갯수(게시판별)
+-- 공략
+SELECT COUNT(*) CNT FROM GCOMMENT WHERE MID='abc';
+-- 자유
+SELECT COUNT(*) CNT FROM FCOMMENT WHERE MID='abc';
+-- 영상
+SELECT COUNT(*) CNT FROM VCOMMENT WHERE MID='abc';
+--(12) 멤버 등급 변경
+UPDATE MEMBER 
+  SET LLEVELNUM=2
+  WHERE MID='abc';
 ----------------------------------------------------------------------
 -----------------------------  ADMIN_DAO  ----------------------------
 ----------------------------------------------------------------------

@@ -28,6 +28,7 @@
 		        <li class="nav-item"><a href="${conPath }/gboardList.do" class="nav-link link-light px-2">공략</a></li>
 		        <li class="nav-item"><a href="${conPath }/fboardList.do" class="nav-link link-light px-2">자유게시판</a></li>
 		        <li class="nav-item"><a href="${conPath }/vboardList.do" class="nav-link link-light px-2">플레이 영상</a></li>
+		        <li class="nav-item"><a href="tetris/tetris.jsp" class="nav-link link-light px-2">테트리스</a></li>
 		      </ul>
 		      <ul class="nav">
 		        <li class="nav-item"><a href="${conPath }/loginView.do" class="nav-link link-light px-2">로그인</a></li>
@@ -53,11 +54,11 @@
 		        <li class="nav-item"><a href="${conPath }/gboardList.do" class="nav-link link-light px-2">공략</a></li>
 		        <li class="nav-item"><a href="${conPath }/fboardList.do" class="nav-link link-light px-2">자유게시판</a></li>
 		        <li class="nav-item"><a href="${conPath }/vboardList.do" class="nav-link link-light px-2">플레이 영상</a></li>
+		        <li class="nav-item"><a href="tetris/tetris.jsp" class="nav-link link-light px-2">테트리스</a></li>
 		      </ul>
 		      <ul class="nav">
 		        <li class="nav-item"><a href="${conPath }/logout.do" class="nav-link link-light px-2">로그아웃</a></li>
-		        <li class="nav-item"><a href="${conPath }/modifyView.do" class="nav-link link-light px-2">정보수정</a></li>
-		        <li class="nav-item"><a class="nav-link link-light px-2">${member.mnickname }님 &nbsp; ▶</a></li>
+		        <li class="nav-item"><a href="${conPath }/myPage.do" class="nav-link link-light px-2">${member.mnickname }님 마이페이지</a></li>
 		      </ul>
 		    </div>
 	    </nav>

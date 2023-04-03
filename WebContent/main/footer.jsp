@@ -17,7 +17,7 @@
 	    <ul class="nav justify-content-center border-bottom pb-3 mb-3">
 	      <li class="nav-item"><a href="${conPath }/main.do" class="nav-link px-2 text-muted">Home</a></li>
 	      <li class="nav-item"><a href="${conPath }/nboardList.do" class="nav-link px-2 text-muted">Notice</a></li>
-	      <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">About</a></li>
+	      <li class="nav-item"><a href="tetris/tetris.jsp" class="nav-link px-2 text-muted">Tetris</a></li>
 	      <li class="nav-item"><a href="${conPath }/adminLoginView.do" class="nav-link px-2 text-muted">admin mode</a></li>
 	    </ul>
 	    <p class="text-center text-muted">&copy; 2023 Company, Inc</p>

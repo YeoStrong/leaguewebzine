@@ -13,7 +13,13 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
+import com.lec.lw.dto.FboardDto;
+import com.lec.lw.dto.FcommentDto;
+import com.lec.lw.dto.GboardDto;
+import com.lec.lw.dto.GcommentDto;
 import com.lec.lw.dto.MemberDto;
+import com.lec.lw.dto.VboardDto;
+import com.lec.lw.dto.VcommentDto;
 
 public class MemberDao {
 	public static final int EXISTENT    = 0;
@@ -327,6 +333,196 @@ public class MemberDao {
 			conn = getConnection();
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, mid);
+			result = pstmt.executeUpdate();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}finally {
+			try {
+				if(pstmt != null) pstmt.close();
+				if(conn  != null) conn.close();
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
+			}
+		}
+		return result;
+	}
+	// (10) 본인 글 목록/갯수(게시판별)
+		// (10)-1-2 공략게시판 글수
+		public int myGboardCnt(String mid) {
+			int totCnt = 0;
+			Connection        conn  = null;
+			PreparedStatement pstmt = null;
+			ResultSet         rs    = null;
+			String sql = "SELECT COUNT(*) CNT FROM GBOARD WHERE MID=?";
+			try {
+				conn = getConnection();
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, mid);
+				rs = pstmt.executeQuery();
+				rs.next();
+				totCnt = rs.getInt(1);
+			} catch (SQLException e) {
+				System.out.println(e.getMessage());
+			} finally {
+				try {
+					if(rs    != null) rs.close();
+					if(pstmt != null) pstmt.close();
+					if(conn  != null) conn.close();
+				} catch (SQLException e) {
+					System.out.println(e.getMessage());
+				} 
+			}
+			return totCnt;
+		}
+		// (10)-2-2 자유게시판 글수
+		public int myFboardCnt(String mid) {
+			int totCnt = 0;
+			Connection        conn  = null;
+			PreparedStatement pstmt = null;
+			ResultSet         rs    = null;
+			String sql = "SELECT COUNT(*) CNT FROM GBOARD WHERE MID=?";
+			try {
+				conn = getConnection();
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, mid);
+				rs = pstmt.executeQuery();
+				rs.next();
+				totCnt = rs.getInt("cnt");
+			} catch (SQLException e) {
+				System.out.println(e.getMessage());
+			} finally {
+				try {
+					if(rs    != null) rs.close();
+					if(pstmt != null) pstmt.close();
+					if(conn  != null) conn.close();
+				} catch (SQLException e) {
+					System.out.println(e.getMessage());
+				} 
+			}
+			return totCnt;
+		}
+		// (10)-3-2 영상게시판 글수
+		public int myVboardCnt(String mid) {
+			int totCnt = 0;
+			Connection        conn  = null;
+			PreparedStatement pstmt = null;
+			ResultSet         rs    = null;
+			String sql = "SELECT COUNT(*) CNT FROM VBOARD WHERE MID=?";
+			try {
+				conn = getConnection();
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, mid);
+				rs = pstmt.executeQuery();
+				rs.next();
+				totCnt = rs.getInt(1);
+			} catch (SQLException e) {
+				System.out.println(e.getMessage());
+			} finally {
+				try {
+					if(rs    != null) rs.close();
+					if(pstmt != null) pstmt.close();
+					if(conn  != null) conn.close();
+				} catch (SQLException e) {
+					System.out.println(e.getMessage());
+				} 
+			}
+			return totCnt;
+		}
+	// (11) 본인 댓글 갯수(게시판별)
+		// (11)-1-2 공략댓글수
+		public int myGcommentCnt(String mid) {
+			int totCnt = 0;
+			Connection        conn  = null;
+			PreparedStatement pstmt = null;
+			ResultSet         rs    = null;
+			String sql = "SELECT COUNT(*) CNT FROM GCOMMENT WHERE MID=?";
+			try {
+				conn = getConnection();
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, mid);
+				rs = pstmt.executeQuery();
+				rs.next();
+				totCnt = rs.getInt(1);
+			} catch (SQLException e) {
+				System.out.println(e.getMessage());
+			} finally {
+				try {
+					if(rs    != null) rs.close();
+					if(pstmt != null) pstmt.close();
+					if(conn  != null) conn.close();
+				} catch (SQLException e) {
+					System.out.println(e.getMessage());
+				} 
+			}
+			return totCnt;
+		}
+		// (11)-2-2 자유댓글수
+		public int myFcommentCnt(String mid) {
+			int totCnt = 0;
+			Connection        conn  = null;
+			PreparedStatement pstmt = null;
+			ResultSet         rs    = null;
+			String sql = "SELECT COUNT(*) CNT FROM FCOMMENT WHERE MID=?";
+			try {
+				conn = getConnection();
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, mid);
+				rs = pstmt.executeQuery();
+				rs.next();
+				totCnt = rs.getInt(1);
+			} catch (SQLException e) {
+				System.out.println(e.getMessage());
+			} finally {
+				try {
+					if(rs    != null) rs.close();
+					if(pstmt != null) pstmt.close();
+					if(conn  != null) conn.close();
+				} catch (SQLException e) {
+					System.out.println(e.getMessage());
+				} 
+			}
+			return totCnt;
+		}
+		// (11)-3-2 영상댓글수
+		public int myVcommentCnt(String mid) {
+			int totCnt = 0;
+			Connection        conn  = null;
+			PreparedStatement pstmt = null;
+			ResultSet         rs    = null;
+			String sql = "SELECT COUNT(*) CNT FROM VCOMMENT WHERE MID=?";
+			try {
+				conn = getConnection();
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, mid);
+				rs = pstmt.executeQuery();
+				rs.next();
+				totCnt = rs.getInt(1);
+			} catch (SQLException e) {
+				System.out.println(e.getMessage());
+			} finally {
+				try {
+					if(rs    != null) rs.close();
+					if(pstmt != null) pstmt.close();
+					if(conn  != null) conn.close();
+				} catch (SQLException e) {
+					System.out.println(e.getMessage());
+				} 
+			}
+			return totCnt;
+		}
+	// (12) 회원등급 수정
+	public int modifyLevel(MemberDto member) {
+		int result = FAIL;
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		String sql = "UPDATE MEMBER " + 
+				"  SET LLEVELNUM=?" + 
+				"  WHERE MID=?";
+		try {
+			conn = getConnection();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, member.getLlevelnum());
+			pstmt.setString(2, member.getMid());
 			result = pstmt.executeUpdate();
 		} catch (Exception e) {
 			System.out.println(e.getMessage());

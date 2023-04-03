@@ -54,7 +54,7 @@
 							<tr>
 								<td>${nboard.anickname }</td>
 								<td class="left">
-									${nboard.ntitle } <!-- 글제목에 a태그를 걸지 말고 query로 tr을 클릭하면 상세보기 페이지로 가기 -->
+									${nboard.ntitle }
 									<c:if test="${not empty nboard.nimage }">
 										<img src="https://cdn-icons-png.flaticon.com/512/5088/5088374.png" width="10">
 									</c:if>
@@ -76,7 +76,7 @@
 							<tr>
 								<td>${gboard.mnickname }</td>
 								<td class="left">
-									${gboard.gtitle } <!-- 글제목에 a태그를 걸지 말고 query로 tr을 클릭하면 상세보기 페이지로 가기 -->
+									${gboard.gtitle }
 									<c:if test="${not empty gboard.gfile1 or not empty gboard.gfile2 or not empty gboard.gfile3 }">
 										<img src="https://cdn-icons-png.flaticon.com/512/5088/5088374.png" width="10">
 									</c:if>
@@ -125,7 +125,7 @@
 								<td>${vboard.mnickname }</td>
 								
 								<td class="left">
-									${vboard.vtitle } <!-- 글제목에 a태그를 걸지 말고 query로 tr을 클릭하면 상세보기 페이지로 가기 -->
+									${vboard.vtitle }
 									<c:if test="${not empty vboard.vvideo }">
 										<img src="https://cdn-icons-png.flaticon.com/512/5088/5088374.png" width="10">
 									</c:if>

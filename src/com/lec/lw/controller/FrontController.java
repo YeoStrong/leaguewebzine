@@ -33,10 +33,12 @@ import com.lec.lw.service.GboardModifyService;
 import com.lec.lw.service.GboardModifyViewService;
 import com.lec.lw.service.GboardWriteService;
 import com.lec.lw.service.MAllViewService;
+import com.lec.lw.service.MGradeModifyService;
 import com.lec.lw.service.MJoinService;
 import com.lec.lw.service.MLoginService;
 import com.lec.lw.service.MLogoutService;
 import com.lec.lw.service.MModifyService;
+import com.lec.lw.service.MMyPageService;
 import com.lec.lw.service.MWithdrawalService;
 import com.lec.lw.service.MainPageService;
 import com.lec.lw.service.MidConfirmService;
@@ -101,25 +103,27 @@ public class FrontController extends HttpServlet {
 		}else if(command.equals("/join.do")) { // 회원가입 DB 처리
 			service = new MJoinService(); // execute메소드 : mId중복체크 후 회원가입
 			service.execute(request, response);
-			viewPage = "member/login.jsp";
+			viewPage = "loginView.do";
 		}else if(command.equals("/loginView.do")) { // 로그인 화면
 			viewPage = "member/login.jsp";
 		}else if(command.equals("/login.do")) { // 로그인 DB 및 세션 처리
 			service = new MLoginService();
 			service.execute(request, response);
-			viewPage = "main/main.jsp";
+			viewPage = "main.do";
 		}else if(command.equals("/logout.do")) {//로그아웃 - 세션 날리기
 			service = new MLogoutService();
 			service.execute(request, response);
-			viewPage = "main/main.jsp";
+			viewPage = "main.do";
 		}else if(command.equals("/modifyView.do")) { // 정보 수정하기 위한 view
-//			service = new MGetMemberService(); // 세션에 있는 mid로 수정할 dto 데이터를 가져오기
-//			service.execute(request, response);
 			viewPage = "member/modify.jsp";
 		}else if(command.equals("/modify.do")) { // db에 정보 수정
 			service = new MModifyService();
 			service.execute(request, response);
-			viewPage = "main/main.jsp";
+			viewPage = "main.do";
+		}else if(command.equals("/myPage.do")) { // 마이페이지
+			service = new MMyPageService();
+			service.execute(request, response);
+			viewPage = "member/myPage.jsp";
 		}else if(command.equals("/allView.do")) { // 회원목록 출력(페이징처리)
 			service = new MAllViewService();
 			service.execute(request, response);
@@ -127,7 +131,13 @@ public class FrontController extends HttpServlet {
 		}else if(command.equals("/withdrawal.do")) { // 회원탈퇴
 			service = new MWithdrawalService();
 			service.execute(request, response);
-			viewPage = "main/main.jsp";
+			viewPage = "main.do";
+		}else if(command.equals("/mgradeModifyView.do")) { // 회원탈퇴
+			viewPage = "member/mgradeModify.jsp";
+		}else if(command.equals("/mgradeModify.do")) { // 회원탈퇴
+			service = new MGradeModifyService();
+			service.execute(request, response);
+			viewPage = "allView.do";
 		}
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * 
 		 * * * * * * * * * * admin 관련 요청  * * * * * * * * * *

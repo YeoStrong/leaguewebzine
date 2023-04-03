@@ -7,3 +7,8 @@
 #content_form caption {font-size: 1.5em;}
 #content_form h2, #content_form b{text-align: center; color:red;}
 #content_form a { text-decoration: none; color:black}
+/* #content_form {
+	background-image: url("../cssImage/teemo.jpg");
+	background-repeat: no-repeat;
+	background-size: 100%;
+} */

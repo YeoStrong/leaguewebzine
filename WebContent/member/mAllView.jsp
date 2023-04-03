@@ -9,12 +9,14 @@
 	<meta charset="UTF-8">
 	<title>Insert title here</title>
 	<link href="${conPath }/css/style.css" rel="stylesheet">
-	<style>
-		#content_form {
-			height:430px;
-			margin: 70px auto 0px;
-		}
-	</style>
+	<script>
+		$(document).ready(function(){
+			$('tr').click(function(){
+				var mid = $(this).children().eq(0).text(); // 0번째 td안의 있는 text;
+				location.href = '${conPath}/mgradeModifyView.do?mid='+mid;
+			});
+		});
+	</script>
 </head>
 <body>
 	<c:if test="${not empty adminLoginResult }">
@@ -32,9 +34,11 @@
 	<div id="content_form">
 		<table class="table caption-top w-75 align-middle">
 			<caption>전체회원보기</caption>
+			<thead class="table-dark">
 			<tr>
 				<th>ID</th><th>닉네임</th><th>인증사진</th><th>등급</th><th>가입일</th>
 			</tr>
+			</thead>
 			<c:forEach var="dto" items="${members }">
 				<tr>
 					<td>
